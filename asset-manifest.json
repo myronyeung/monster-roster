@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/monsterroster/static/css/main.073c9b0a.css",
+    "main.js": "/monsterroster/static/js/main.b888887c.js",
+    "static/js/787.74462891.chunk.js": "/monsterroster/static/js/787.74462891.chunk.js",
+    "static/media/logo.svg": "/monsterroster/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/monsterroster/index.html",
+    "main.073c9b0a.css.map": "/monsterroster/static/css/main.073c9b0a.css.map",
+    "main.b888887c.js.map": "/monsterroster/static/js/main.b888887c.js.map",
+    "787.74462891.chunk.js.map": "/monsterroster/static/js/787.74462891.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.b888887c.js"
+  ]
+}
