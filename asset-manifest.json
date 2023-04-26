@@ -1,16 +1,15 @@
 {
   "files": {
-    "main.css": "/monsterroster/static/css/main.6ebfcea3.css",
-    "main.js": "/monsterroster/static/js/main.423a6ab2.js",
-    "static/js/787.74462891.chunk.js": "/monsterroster/static/js/787.74462891.chunk.js",
-    "static/media/logo.svg": "/monsterroster/static/media/logo.b2e5a01e505f739f1484b881277d5186.svg",
-    "index.html": "/monsterroster/index.html",
-    "main.6ebfcea3.css.map": "/monsterroster/static/css/main.6ebfcea3.css.map",
-    "main.423a6ab2.js.map": "/monsterroster/static/js/main.423a6ab2.js.map",
-    "787.74462891.chunk.js.map": "/monsterroster/static/js/787.74462891.chunk.js.map"
+    "main.css": "/monster-roster/static/css/main.d997e984.css",
+    "main.js": "/monster-roster/static/js/main.783903b1.js",
+    "static/js/787.74462891.chunk.js": "/monster-roster/static/js/787.74462891.chunk.js",
+    "index.html": "/monster-roster/index.html",
+    "main.d997e984.css.map": "/monster-roster/static/css/main.d997e984.css.map",
+    "main.783903b1.js.map": "/monster-roster/static/js/main.783903b1.js.map",
+    "787.74462891.chunk.js.map": "/monster-roster/static/js/787.74462891.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.6ebfcea3.css",
-    "static/js/main.423a6ab2.js"
+    "static/css/main.d997e984.css",
+    "static/js/main.783903b1.js"
   ]
 }
