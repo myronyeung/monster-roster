@@ -56,7 +56,7 @@ const rows: GridRowsProp = store.map((monster: Monster) => {
 });
 
 const columns: GridColDef[] = [
-  { field: 'id', headerName: 'id', width: 30 },
+  { field: 'id', headerName: 'Id', width: 30 },
   { field: 'name', headerName: 'Name', width: 200 },
   { field: 'hp', headerName: 'HP', width: 30 },
   { field: 'energy', headerName: 'Energy', width: 100 }
@@ -75,6 +75,7 @@ export function MonsterSelector() {
         <DataGrid rows={rows} columns={columns} onRowClick={() => dispatch(selectId(9))}/>
       </div>
       <div className="bio"></div>
+      {/* <h3>Selected Id: {id}</h3> */}
     </div>
   );
 }
