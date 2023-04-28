@@ -5,7 +5,7 @@ import {
   selectId,
   select,
 } from './monsterSelectorSlice';
-import { DataGrid, GridRowsProp, GridColDef, GridRowParams } from '@mui/x-data-grid';
+import { DataGrid, GridRowsProp, GridColDef, GridEventListener } from '@mui/x-data-grid';
 
 type Monster = {
   id: number
@@ -62,20 +62,29 @@ const columns: GridColDef[] = [
   { field: 'energy', headerName: 'Energy', width: 100 }
 ];
 
+
 export function MonsterSelector() {
   const id = useAppSelector(select);
   const dispatch = useAppDispatch();
-  const [selectedId, setSelectedId] = useState(0);
+  const [selectedId, setSelectedId] = useState("");
+
+  const handleEvent: GridEventListener<'rowClick'> = (
+    params, // GridRowParams
+    event, // MuiEvent<React.MouseEvent<HTMLElement>>
+    details, // GridCallbackDetails
+  ) => {
+    // setSelectedId(`Row with id ${params.row.id} clicked`);
+    dispatch(selectId(params.row.id));
+  };
 
   return (
 
     <div className="content">
       <div className="catalog">
-        {/* <DataGrid rows={rows} columns={columns} onRowClick={() => dispatch(selectId((params: GridRowParams) => params.row.quantity))}/> */}
-        <DataGrid rows={rows} columns={columns} onRowClick={() => dispatch(selectId(9))}/>
+        <DataGrid rows={rows} columns={columns} onRowClick={handleEvent}/>
       </div>
       <div className="bio"></div>
-      {/* <h3>Selected Id: {id}</h3> */}
+      <h3>Selected Id: {selectedId}</h3>
     </div>
   );
 }
