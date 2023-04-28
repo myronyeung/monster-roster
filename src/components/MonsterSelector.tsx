@@ -81,8 +81,9 @@ export function MonsterSelector() {
       <div className="catalog">
         <DataGrid rows={rows} columns={columns} onRowClick={handleEvent}/>
       </div>
-      <div className="bio"></div>
-      <h3>Selected Id: {monster.id}</h3>
+      <div className="bio">
+        <h3>Selected Id: {monster.id}</h3>
+      </div>
     </div>
   );
 }
