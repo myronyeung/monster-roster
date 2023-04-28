@@ -3,7 +3,7 @@ import monsterSelectorReducer from '../components/monsterSelectorSlice';
 
 export const store = configureStore({
   reducer: {
-    id: monsterSelectorReducer,
+    monster: monsterSelectorReducer,
   },
 });
 

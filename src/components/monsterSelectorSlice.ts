@@ -24,6 +24,6 @@ export const monsterSelectorSlice = createSlice({
 export const { selectId } = monsterSelectorSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const select = (state: RootState) => state.id;
+export const select = (state: RootState) => state.monster;
 
 export default monsterSelectorSlice.reducer;
