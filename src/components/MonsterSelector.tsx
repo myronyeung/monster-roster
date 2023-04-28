@@ -15,45 +15,61 @@ type Monster = {
   image: string
 }
 
-const store = [
-  {
-    id: 1, name: "Charmander", hp: 70, energy: "Fire", image: "" 
-  },
-  {
-    id: 6, name: "Snorunt", hp: 50, energy: "Water", image: "" 
-  },
-  {
-    id: 7, name: "Oshawott", hp: 60, energy: "Water", image: "" 
-  },
-  {
-    id: 4, name: "Fennekin", hp: 60, energy: "Fire", image: "" 
-  },
-  {
-    id: 5, name: "Cyndaquil", hp: 40, energy: "Fire", image: "" 
-  },
-  {
-    id: 2, name: "Bagon", hp: 50, energy: "Fire", image: "" 
-  },
-  {
-    id: 3, name: "Darumaka", hp: 70, energy: "Fire", image: "" 
-  },
-  {
-    id: 8, name: "Panpour", hp: 60, energy: "Water", image: "" 
-  },
-  {
-    id: 9, name: "Krabby", hp: 70, energy: "Water", image: "" 
-  },
-  {
-    id: 10, name: "Lapras", hp: 110, energy: "Water", image: "" 
-  },
-  {
-    id: 11, name: "Dewpider", hp: 50, energy: "Plant", image: "" 
-  }
-]
+type Id = string;
+interface MonsterInfo {
+  name: string;
+  hp: number;
+  energy: string
+  image: string
+}
 
-const rows: GridRowsProp = store.map((monster: Monster) => {
-  return monster;
-});
+const store: Record<Id, MonsterInfo> = {
+  1: {
+    name: "Charmander", hp: 70, energy: "Fire", image: ""
+  },
+  6: {
+    name: "Snorunt", hp: 50, energy: "Water", image: ""
+  },
+  7: {
+    name: "Oshawott", hp: 60, energy: "Water", image: ""
+  },
+  4: {
+    name: "Fennekin", hp: 60, energy: "Fire", image: "" 
+  },
+  5: {
+    name: "Cyndaquil", hp: 40, energy: "Fire", image: ""
+  },
+  2: {
+    name: "Bagon", hp: 50, energy: "Fire", image: ""
+  },
+  3: {
+    name: "Darumaka", hp: 70, energy: "Fire", image: ""
+  },
+  8: {
+    name: "Panpour", hp: 60, energy: "Water", image: ""
+  },
+  9: {
+    name: "Krabby", hp: 70, energy: "Water", image: ""
+  },
+  10: {
+    name: "Lapras", hp: 110, energy: "Water", image: ""
+  },
+  11: {
+    name: "Dewpider", hp: 50, energy: "Plant", image: ""
+  },
+}
+
+const fillDataGrid = () => {
+  const arr: Monster[] = [];
+
+  Object.entries(store).forEach(([key, value]) => {
+    arr.push({id: key as unknown as number, ...value});
+  })
+  
+  return arr;
+};
+
+const rows: GridRowsProp = fillDataGrid();
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'Id', width: 30 },
@@ -61,7 +77,6 @@ const columns: GridColDef[] = [
   { field: 'hp', headerName: 'HP', width: 30 },
   { field: 'energy', headerName: 'Energy', width: 100 }
 ];
-
 
 export function MonsterSelector() {
   const monster = useAppSelector(select);
