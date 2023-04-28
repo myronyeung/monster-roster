@@ -64,16 +64,14 @@ const columns: GridColDef[] = [
 
 
 export function MonsterSelector() {
-  const id = useAppSelector(select);
+  const monster = useAppSelector(select);
   const dispatch = useAppDispatch();
-  const [selectedId, setSelectedId] = useState("");
 
   const handleEvent: GridEventListener<'rowClick'> = (
     params, // GridRowParams
     event, // MuiEvent<React.MouseEvent<HTMLElement>>
     details, // GridCallbackDetails
   ) => {
-    // setSelectedId(`Row with id ${params.row.id} clicked`);
     dispatch(selectId(params.row.id));
   };
 
@@ -84,9 +82,7 @@ export function MonsterSelector() {
         <DataGrid rows={rows} columns={columns} onRowClick={handleEvent}/>
       </div>
       <div className="bio"></div>
-      <h3>Selected Id: {selectedId}</h3>
+      <h3>Selected Id: {monster.id}</h3>
     </div>
   );
 }
-
-
