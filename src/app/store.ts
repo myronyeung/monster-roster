@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import monsterSelectorReducer from '../components/monsterSelectorSlice';
+import monsterSelectorReducer from '../features/monsterSlice';
 
 export const store = configureStore({
   reducer: {

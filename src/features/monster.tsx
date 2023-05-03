@@ -4,7 +4,7 @@ import { useAppSelector, useAppDispatch } from '../app/hooks';
 import {
   selectId,
   select,
-} from './monsterSelectorSlice';
+} from './monsterSlice';
 import { DataGrid, GridRowsProp, GridColDef, GridEventListener } from '@mui/x-data-grid';
 
 type Monster = {
@@ -78,7 +78,7 @@ const columns: GridColDef[] = [
   { field: 'energy', headerName: 'Energy', width: 100 }
 ];
 
-export function MonsterSelector() {
+export function Monster() {
   const monster = useAppSelector(select);
   const dispatch = useAppDispatch();
 

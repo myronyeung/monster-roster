@@ -1,5 +1,5 @@
 import React from 'react';
-import { MonsterSelector } from './components/MonsterSelector';
+import { Monster } from './features/monster';
 
 import './App.sass';
 
@@ -10,7 +10,7 @@ function App() {
         <h1>Monster Roster</h1>
         <p>A Pokemon planning tool</p>
       </header>
-      <MonsterSelector />
+      <Monster />
     </div>
   );
 }

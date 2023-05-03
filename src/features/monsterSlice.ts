@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
 
-export interface monsterSelectorState {
+export interface monsterState {
   id: number;
 }
 
-const initialState: monsterSelectorState = {
+const initialState: monsterState = {
   id: 0,
 };
 
