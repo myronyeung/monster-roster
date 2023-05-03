@@ -2,55 +2,19 @@ import React, { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import {
-  Monster,
   MonsterInfo,
   Id,
+  monsterState,
   monsterActions,
-  monster,
   fetchMonsters,
 } from './monsterSlice';
 import { DataGrid, GridRowsProp, GridColDef, GridEventListener } from '@mui/x-data-grid';
 
-export type MonsterRow = {id: Id} & MonsterInfo;
-
-const store: Monster = {
-  1: {
-    name: "Charmander", hp: 70, types: ["Fire"], image: ""
-  },
-  6: {
-    name: "Snorunt", hp: 50, types: ["Water"], image: ""
-  },
-  7: {
-    name: "Oshawott", hp: 60, types: ["Water"], image: ""
-  },
-  4: {
-    name: "Fennekin", hp: 60, types: ["Fire"], image: "" 
-  },
-  5: {
-    name: "Cyndaquil", hp: 40, types: ["Fire"], image: ""
-  },
-  2: {
-    name: "Bagon", hp: 50, types: ["Fire"], image: ""
-  },
-  3: {
-    name: "Darumaka", hp: 70, types: ["Fire"], image: ""
-  },
-  8: {
-    name: "Panpour", hp: 60, types: ["Water"], image: ""
-  },
-  9: {
-    name: "Krabby", hp: 70, types: ["Water"], image: ""
-  },
-  10: {
-    name: "Lapras", hp: 110, types: ["Water"], image: ""
-  },
-  11: {
-    name: "Dewpider", hp: 50, types: ["Plant"], image: ""
-  },
-};
+// Change types to a string to make it more convenient to display in MUI Data Grid.
+export type MonsterRow = {id: Id} & {types: string } & Omit<MonsterInfo, 'types'>;
 
 const MonsterView: React.FunctionComponent = () => {
-  const monsterzzz = useAppSelector(monster);
+  const monsters = useAppSelector(monsterState);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -68,8 +32,8 @@ const MonsterView: React.FunctionComponent = () => {
   const fillDataGrid = () => {
     const arr: MonsterRow[] = [];
   
-    Object.entries(monsterzzz.monsters).forEach(([key, value]) => {
-      arr.push({id: key as unknown as string, ...value});
+    Object.entries(monsters.allMonsters).forEach(([key, value]) => {
+      arr.push({...value, id: key, types: monsters.allMonsters[key].types.join(', ')});
     })
     
     return arr;
@@ -78,28 +42,30 @@ const MonsterView: React.FunctionComponent = () => {
   const rows: GridRowsProp = fillDataGrid();
   
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'Id', width: 50 },
+    { field: 'id', headerName: 'Id', width: 100 },
     { field: 'name', headerName: 'Name', width: 200 },
     { field: 'hp', headerName: 'HP', width: 30 },
-    { field: 'energy', headerName: 'Energy', width: 100 }
+    { field: 'types', headerName: 'Energy', width: 200 }
   ];
 
   return (
     <div className="content">
       <div className="catalog">
-        <DataGrid rows={rows} columns={columns} onRowClick={handleEvent}/>
+        {monsters.loading && <div>Loading...</div>}
+        {!monsters.loading && monsters.error && <div>Error: {monsters.error}</div>}
+        {!monsters.loading && monsters.allMonsters ?
+          <DataGrid rows={rows} columns={columns} onRowClick={handleEvent}/>
+         : null}
       </div>
       <div className="bio">
-        <h3>Selected Monster: {monsterzzz.selectedId}</h3>
-          {monsterzzz.loading && <div>Loading...</div>}
-          {!monsterzzz.loading && monsterzzz.error && <div>Error: {monsterzzz.error}</div>}
-          {!monsterzzz.loading && monsterzzz.monsters && Object.keys(monsterzzz.monsters).length ? (
-            <ul style={{margin: '5px', border: '1px solid black', borderRadius: '5px', padding: '5px'}}>
-              {Object.keys(monsterzzz.monsters).map((key) => {
-                return <li key={key}>{`${key}, ${monsterzzz.monsters[key].name}`}</li>
-              })}
-            </ul>
-          ) : null}
+        <h2>Monster Details</h2>
+        {!monsters.loading && monsters.allMonsters && monsters.selectedId ?
+          (
+            <>
+              <h3>Selected Monster:  {monsters.allMonsters[monsters.selectedId].name}</h3>
+              <img className="monster-large-image" src={monsters.allMonsters[monsters.selectedId].image} />
+            </>
+          ) : '' }
       </div>
     </div>
   );

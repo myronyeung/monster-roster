@@ -17,23 +17,23 @@ export type Id = string;
 export interface monsterState {
   loading: boolean;
   selectedId: number;
-  monsters: Monster;
+  allMonsters: Monster;
   error: string;
 };
 
 const initialState: monsterState = {
   loading: false,
   selectedId: 0,
-  monsters: {},
+  allMonsters: {},
   error: '',
 };
 
 export const fetchMonsters = createAsyncThunk('monster/fetchMonsters', async () => {
   return axios
-    .get('https://api.pokemontcg.io/v2/cards?page=1&pageSize=25')
+    .get('https://api.pokemontcg.io/v2/cards?page=1&pageSize=250')
     // data.data is not a typo. Monsters are an array assigned to a key named 'data' in response.
     .then((response: any) => response.data.data.reduce((acc: Monster, monster: any, ): Monster => {
-      acc[monster.id] = monster;
+      acc[monster.id] = {...monster, image: monster.images.large};
       return acc;
     }, {}))});
 
@@ -55,12 +55,12 @@ export const monsterSlice = createSlice({
     });
     builder.addCase(fetchMonsters.fulfilled, (state, action) => {
       state.loading = false;
-      state.monsters = action.payload;
+      state.allMonsters = action.payload;
       state.error = '';
     });
     builder.addCase(fetchMonsters.rejected, (state, action) => {
       state.loading = false;
-      state.monsters = {};
+      state.allMonsters = {};
       state.error = action.error.message || '';
     });
   },
@@ -69,6 +69,6 @@ export const monsterSlice = createSlice({
 export const monsterActions = monsterSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const monster = (state: RootState) => state.monster;
+export const monsterState = (state: RootState) => state.monster;
 
 export default monsterSlice.reducer;
