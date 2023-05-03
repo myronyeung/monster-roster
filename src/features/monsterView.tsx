@@ -1,61 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 
-import { useAppSelector, useAppDispatch } from '../app/hooks';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 import {
+  Monster,
+  MonsterInfo,
   monsterActions,
-  selectz,
+  monster,
+  fetchMonsters,
 } from './monsterSlice';
 import { DataGrid, GridRowsProp, GridColDef, GridEventListener } from '@mui/x-data-grid';
 
-type Monster = {
-  id: number
-  name: string
-  hp: number
-  energy: string
-  image: string
-}
-
 type Id = string;
-interface MonsterInfo {
-  name: string;
-  hp: number;
-  energy: string
-  image: string
-}
 
 const store: Record<Id, MonsterInfo> = {
   1: {
-    name: "Charmander", hp: 70, energy: "Fire", image: ""
+    name: "Charmander", hp: 70, types: ["Fire"], image: ""
   },
   6: {
-    name: "Snorunt", hp: 50, energy: "Water", image: ""
+    name: "Snorunt", hp: 50, types: ["Water"], image: ""
   },
   7: {
-    name: "Oshawott", hp: 60, energy: "Water", image: ""
+    name: "Oshawott", hp: 60, types: ["Water"], image: ""
   },
   4: {
-    name: "Fennekin", hp: 60, energy: "Fire", image: "" 
+    name: "Fennekin", hp: 60, types: ["Fire"], image: "" 
   },
   5: {
-    name: "Cyndaquil", hp: 40, energy: "Fire", image: ""
+    name: "Cyndaquil", hp: 40, types: ["Fire"], image: ""
   },
   2: {
-    name: "Bagon", hp: 50, energy: "Fire", image: ""
+    name: "Bagon", hp: 50, types: ["Fire"], image: ""
   },
   3: {
-    name: "Darumaka", hp: 70, energy: "Fire", image: ""
+    name: "Darumaka", hp: 70, types: ["Fire"], image: ""
   },
   8: {
-    name: "Panpour", hp: 60, energy: "Water", image: ""
+    name: "Panpour", hp: 60, types: ["Water"], image: ""
   },
   9: {
-    name: "Krabby", hp: 70, energy: "Water", image: ""
+    name: "Krabby", hp: 70, types: ["Water"], image: ""
   },
   10: {
-    name: "Lapras", hp: 110, energy: "Water", image: ""
+    name: "Lapras", hp: 110, types: ["Water"], image: ""
   },
   11: {
-    name: "Dewpider", hp: 50, energy: "Plant", image: ""
+    name: "Dewpider", hp: 50, types: ["Plant"], image: ""
   },
 }
 
@@ -79,8 +68,12 @@ const columns: GridColDef[] = [
 ];
 
 const MonsterView: React.FunctionComponent = () => {
-  const monster = useAppSelector(selectz);
+  const monsterzzz = useAppSelector(monster);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchMonsters());
+  }, []);
 
   const handleEvent: GridEventListener<'rowClick'> = (
     params, // GridRowParams
@@ -97,7 +90,16 @@ const MonsterView: React.FunctionComponent = () => {
         <DataGrid rows={rows} columns={columns} onRowClick={handleEvent}/>
       </div>
       <div className="bio">
-        <h3>Selected Id: {monster.selectedId}</h3>
+        <h3>Selected Id: {monsterzzz.selectedId}</h3>
+          {monsterzzz.loading && <div>Loading...</div>}
+          {!monsterzzz.loading && monsterzzz.error && <div>Error: {monsterzzz.error}</div>}
+          {!monsterzzz.loading && monsterzzz.monsters.length ? (
+            <ul style={{margin: '5px', border: '1px solid black', borderRadius: '5px', padding: '5px'}}>
+              {monsterzzz.monsters.map((monster) => {
+                return <li key={monster.id}>{monster.name}</li>
+              })}
+            </ul>
+          ) : null}
       </div>
     </div>
   );
