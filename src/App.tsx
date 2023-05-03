@@ -1,15 +1,13 @@
 import React from 'react';
+import Nav from './components/nav';
 import MonsterView from './features/monsterView';
 
 import './App.sass';
 
-const App:React.FunctionComponent = () => {
+const App: React.FunctionComponent = () => {
   return (
     <div className="App">
-      <header>
-        <h1>Monster Roster</h1>
-        <p>A Pokemon planning tool</p>
-      </header>
+      <Nav />
       <MonsterView />
     </div>
   );
