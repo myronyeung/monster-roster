@@ -63,7 +63,7 @@ const MonsterView: React.FunctionComponent = () => {
           (
             <>
               <h3>Selected Monster:  {monsters.allMonsters[monsters.selectedId].name}</h3>
-              <img className="monster-large-image" src={monsters.allMonsters[monsters.selectedId].image} />
+              <img className="monster-large-image" src={monsters.allMonsters[monsters.selectedId].image} alt={monsters.allMonsters[monsters.selectedId].name}/>
             </>
           ) : '' }
       </div>

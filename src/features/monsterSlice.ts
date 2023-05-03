@@ -61,7 +61,7 @@ export const monsterSlice = createSlice({
     builder.addCase(fetchMonsters.rejected, (state, action) => {
       state.loading = false;
       state.allMonsters = {};
-      state.error = action.error.message || '';
+      state.error = action.error.message || 'Unknown error occurred.';
     });
   },
 });
