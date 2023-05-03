@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { RootState } from '../app/store';
 
-export type Monster = { id: number } & MonsterInfo;
+export type Monster = Record<Id, MonsterInfo>;
 
 export type MonsterInfo = {
   name: string;
@@ -12,36 +12,30 @@ export type MonsterInfo = {
   image: string
 };
 
+export type Id = string;
+
 export interface monsterState {
   loading: boolean;
   selectedId: number;
-  monsters: Monster[];
+  monsters: Monster;
   error: string;
 };
 
 const initialState: monsterState = {
   loading: false,
   selectedId: 0,
-  monsters: [],
+  monsters: {},
   error: '',
 };
 
 export const fetchMonsters = createAsyncThunk('monster/fetchMonsters', async () => {
   return axios
-    .get('https://api.pokemontcg.io/v2/cards?page=1&pageSize=250')
-    // data.data is not a typo. Monsters are an array assigned to data key in response.
-    .then((response: any) => response.data.data.map((monster: any) => monster))});
-  // return fetch('https://api.pokemontcg.io/v2/cards?page=1&pageSize=250')
-  // .then((response) => {
-  //   if (response.ok) {
-  //     return response.json();
-  //   } else {
-  //     throw new Error(response.statusText);
-  //   }
-  // })
-  // .then((data) => {data.map((monster: any) => monster.id)})
-  // .catch((error) => {console.log(error)})
-// });
+    .get('https://api.pokemontcg.io/v2/cards?page=1&pageSize=25')
+    // data.data is not a typo. Monsters are an array assigned to a key named 'data' in response.
+    .then((response: any) => response.data.data.reduce((acc: Monster, monster: any, ): Monster => {
+      acc[monster.id] = monster;
+      return acc;
+    }, {}))});
 
 export const monsterSlice = createSlice({
   name: 'monster',
@@ -66,7 +60,7 @@ export const monsterSlice = createSlice({
     });
     builder.addCase(fetchMonsters.rejected, (state, action) => {
       state.loading = false;
-      state.monsters = [];
+      state.monsters = {};
       state.error = action.error.message || '';
     });
   },

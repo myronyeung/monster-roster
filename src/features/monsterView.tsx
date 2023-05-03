@@ -4,15 +4,16 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import {
   Monster,
   MonsterInfo,
+  Id,
   monsterActions,
   monster,
   fetchMonsters,
 } from './monsterSlice';
 import { DataGrid, GridRowsProp, GridColDef, GridEventListener } from '@mui/x-data-grid';
 
-type Id = string;
+export type MonsterRow = {id: Id} & MonsterInfo;
 
-const store: Record<Id, MonsterInfo> = {
+const store: Monster = {
   1: {
     name: "Charmander", hp: 70, types: ["Fire"], image: ""
   },
@@ -46,26 +47,7 @@ const store: Record<Id, MonsterInfo> = {
   11: {
     name: "Dewpider", hp: 50, types: ["Plant"], image: ""
   },
-}
-
-const fillDataGrid = () => {
-  const arr: Monster[] = [];
-
-  Object.entries(store).forEach(([key, value]) => {
-    arr.push({id: key as unknown as number, ...value});
-  })
-  
-  return arr;
 };
-
-const rows: GridRowsProp = fillDataGrid();
-
-const columns: GridColDef[] = [
-  { field: 'id', headerName: 'Id', width: 30 },
-  { field: 'name', headerName: 'Name', width: 200 },
-  { field: 'hp', headerName: 'HP', width: 30 },
-  { field: 'energy', headerName: 'Energy', width: 100 }
-];
 
 const MonsterView: React.FunctionComponent = () => {
   const monsterzzz = useAppSelector(monster);
@@ -83,20 +65,38 @@ const MonsterView: React.FunctionComponent = () => {
     dispatch(monsterActions.select(params.row.id));
   };
 
-  return (
+  const fillDataGrid = () => {
+    const arr: MonsterRow[] = [];
+  
+    Object.entries(monsterzzz.monsters).forEach(([key, value]) => {
+      arr.push({id: key as unknown as string, ...value});
+    })
+    
+    return arr;
+  };
+  
+  const rows: GridRowsProp = fillDataGrid();
+  
+  const columns: GridColDef[] = [
+    { field: 'id', headerName: 'Id', width: 50 },
+    { field: 'name', headerName: 'Name', width: 200 },
+    { field: 'hp', headerName: 'HP', width: 30 },
+    { field: 'energy', headerName: 'Energy', width: 100 }
+  ];
 
+  return (
     <div className="content">
       <div className="catalog">
         <DataGrid rows={rows} columns={columns} onRowClick={handleEvent}/>
       </div>
       <div className="bio">
-        <h3>Selected Id: {monsterzzz.selectedId}</h3>
+        <h3>Selected Monster: {monsterzzz.selectedId}</h3>
           {monsterzzz.loading && <div>Loading...</div>}
           {!monsterzzz.loading && monsterzzz.error && <div>Error: {monsterzzz.error}</div>}
-          {!monsterzzz.loading && monsterzzz.monsters.length ? (
+          {!monsterzzz.loading && monsterzzz.monsters && Object.keys(monsterzzz.monsters).length ? (
             <ul style={{margin: '5px', border: '1px solid black', borderRadius: '5px', padding: '5px'}}>
-              {monsterzzz.monsters.map((monster) => {
-                return <li key={monster.id}>{monster.name}</li>
+              {Object.keys(monsterzzz.monsters).map((key) => {
+                return <li key={key}>{`${key}, ${monsterzzz.monsters[key].name}`}</li>
               })}
             </ul>
           ) : null}
