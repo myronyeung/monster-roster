@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import {
-  selectId,
-  select,
+  monsterActions,
+  selectz,
 } from './monsterSlice';
 import { DataGrid, GridRowsProp, GridColDef, GridEventListener } from '@mui/x-data-grid';
 
@@ -78,8 +78,8 @@ const columns: GridColDef[] = [
   { field: 'energy', headerName: 'Energy', width: 100 }
 ];
 
-export function Monster() {
-  const monster = useAppSelector(select);
+const MonsterView: React.FunctionComponent = () => {
+  const monster = useAppSelector(selectz);
   const dispatch = useAppDispatch();
 
   const handleEvent: GridEventListener<'rowClick'> = (
@@ -87,7 +87,7 @@ export function Monster() {
     event, // MuiEvent<React.MouseEvent<HTMLElement>>
     details, // GridCallbackDetails
   ) => {
-    dispatch(selectId(params.row.id));
+    dispatch(monsterActions.select(params.row.id));
   };
 
   return (
@@ -97,8 +97,12 @@ export function Monster() {
         <DataGrid rows={rows} columns={columns} onRowClick={handleEvent}/>
       </div>
       <div className="bio">
-        <h3>Selected Id: {monster.id}</h3>
+        <h3>Selected Id: {monster.selectedId}</h3>
       </div>
     </div>
   );
 }
+
+MonsterView.displayName = 'MonsterView';
+
+export default MonsterView;

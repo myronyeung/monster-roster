@@ -2,28 +2,29 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
 
 export interface monsterState {
-  id: number;
-}
+  selectedId: number;
+} 
 
 const initialState: monsterState = {
-  id: 0,
+  selectedId: 0,
 };
 
-export const monsterSelectorSlice = createSlice({
+export const monsterSlice = createSlice({
   name: 'monster',
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
+    // createSlice automatically generates Action Creators
     // Use the PayloadAction type to declare the contents of `action.payload`
-    selectId: (state, action: PayloadAction<number>) => {
-      state.id = action.payload
+    select: (state, action: PayloadAction<number>) => {
+      state.selectedId = action.payload
     }
   }
-})
+});
 
-export const { selectId } = monsterSelectorSlice.actions;
+export const monsterActions = monsterSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const select = (state: RootState) => state.monster;
+export const selectz = (state: RootState) => state.monster;
 
-export default monsterSelectorSlice.reducer;
+export default monsterSlice.reducer;

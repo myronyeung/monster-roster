@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import monsterSelectorReducer from '../features/monsterSlice';
+import monsterReducer from '../features/monsterSlice';
 
 export const store = configureStore({
   reducer: {
-    monster: monsterSelectorReducer,
+    monster: monsterReducer,
   },
 });
 
