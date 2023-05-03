@@ -9,7 +9,7 @@ export type MonsterInfo = {
   name: string;
   hp: number;
   types: string[];
-  image: string
+  image: string;
 };
 
 export type Id = string;
@@ -19,7 +19,7 @@ export interface monsterState {
   selectedId: number;
   allMonsters: Monster;
   error: string;
-};
+}
 
 const initialState: monsterState = {
   loading: false,
@@ -28,14 +28,22 @@ const initialState: monsterState = {
   error: '',
 };
 
-export const fetchMonsters = createAsyncThunk('monster/fetchMonsters', async () => {
-  return axios
-    .get('https://api.pokemontcg.io/v2/cards?page=1&pageSize=250')
-    // data.data is not a typo. Monsters are an array assigned to a key named 'data' in response.
-    .then((response: any) => response.data.data.reduce((acc: Monster, monster: any, ): Monster => {
-      acc[monster.id] = {...monster, image: monster.images.large};
-      return acc;
-    }, {}))});
+export const fetchMonsters = createAsyncThunk(
+  'monster/fetchMonsters',
+  async () => {
+    return (
+      axios
+        .get('https://api.pokemontcg.io/v2/cards?page=1&pageSize=250')
+        // data.data is not a typo. Monsters are an array assigned to a key named 'data' in response.
+        .then((response: any) =>
+          response.data.data.reduce((acc: Monster, monster: any): Monster => {
+            acc[monster.id] = { ...monster, image: monster.images.large };
+            return acc;
+          }, {})
+        )
+    );
+  }
+);
 
 export const monsterSlice = createSlice({
   name: 'monster',
@@ -45,8 +53,8 @@ export const monsterSlice = createSlice({
     // createSlice automatically generates Action Creators
     // Use the PayloadAction type to declare the contents of `action.payload`
     select: (state, action: PayloadAction<number>) => {
-      state.selectedId = action.payload
-    }
+      state.selectedId = action.payload;
+    },
   },
   // Codevolution on YouTube: https://tinyurl.com/ej9ztw9e
   extraReducers: (builder) => {

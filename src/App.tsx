@@ -11,7 +11,7 @@ const App: React.FunctionComponent = () => {
       <MonsterView />
     </div>
   );
-}
+};
 
 App.displayName = 'App';
 

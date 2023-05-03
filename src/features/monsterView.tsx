@@ -10,7 +10,7 @@ const MonsterView: React.FunctionComponent = () => {
       <Details />
     </div>
   );
-}
+};
 
 MonsterView.displayName = 'MonsterView';
 
