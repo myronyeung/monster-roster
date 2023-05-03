@@ -54,11 +54,11 @@ const MonsterView: React.FunctionComponent = () => {
         {monsters.loading && <div>Loading...</div>}
         {!monsters.loading && monsters.error && <div>Error: {monsters.error}</div>}
         {!monsters.loading && monsters.allMonsters ?
-          <DataGrid rows={rows} columns={columns} onRowClick={handleEvent}/>
+          <DataGrid rows={rows} columns={columns} onRowClick={handleEvent} />
          : null}
       </div>
       <div className="bio">
-        <h2>Monster Details</h2>
+        <h2>Pokemon Details</h2>
         {!monsters.loading && monsters.allMonsters && monsters.selectedId ?
           (
             <>
